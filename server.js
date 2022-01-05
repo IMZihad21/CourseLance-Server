@@ -35,7 +35,14 @@ const dbConnect = async () => {
                 const orderedProducts = products.reverse();
                 res.json(orderedProducts);
             }
-        })
+        });
+
+        app.get('/courses/:coursesID', async (req, res) => {
+            const coursesID = req.params.coursesID;
+            const query = { _id: ObjectId(coursesID) };
+            const course = await coursesDB.findOne(query);
+            res.json(course);
+        });
     }
     finally {
         console.log('Database is Online!');
