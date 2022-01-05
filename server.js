@@ -23,6 +23,19 @@ const dbConnect = async () => {
         await client.connect();
         const courseLance = client.db("courseLance");
         const coursesDB = courseLance.collection('courses');
+
+        // GET requests
+        app.get('/courses', async (req, res) => {
+            const cursor = coursesDB.find({});
+            if ((await cursor.count()) === 0) {
+                res.json([]);
+            }
+            else {
+                const products = await cursor.toArray();
+                const orderedProducts = products.reverse();
+                res.json(orderedProducts);
+            }
+        })
     }
     finally {
         console.log('Database is Online!');
