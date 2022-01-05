@@ -31,8 +31,8 @@ const dbConnect = async () => {
                 res.json([]);
             }
             else {
-                const products = await cursor.toArray();
-                const orderedProducts = products.reverse();
+                const courses = await cursor.toArray();
+                const orderedProducts = courses.reverse();
                 res.json(orderedProducts);
             }
         });
@@ -43,6 +43,13 @@ const dbConnect = async () => {
             const course = await coursesDB.findOne(query);
             res.json(course);
         });
+
+        //POST Requests
+        app.post('/courses', async (req, res) => {
+            const result = await coursesDB.insertOne(req.body);
+            res.json(result);
+        });
+
     }
     finally {
         console.log('Database is Online!');
